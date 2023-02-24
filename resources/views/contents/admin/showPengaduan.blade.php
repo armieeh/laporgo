@@ -21,7 +21,7 @@
                                 <td>Foto</td>
                                 <td>:</td>
                                 <td><img src="{{ Storage::url($pengaduan->foto) }}" alt="Foto Pengaduan"
-                                        class="embed-responsive"></td>
+                                        class="embed-responsive" style="width: 200px"></td>
                             </tr>
                             <tr>
                                 <td>Isi Laporan</td>
@@ -32,12 +32,12 @@
                                 <td>Status</td>
                                 <td>:</td>
                                 <td>
-                                    @if ($pengaduan->status = '0')
-                                    <a href="" class="badge badge-danger">Pending</a>
-                                    @elseif ($pengaduan->status = 'proses')
-                                    <a href="#" class="badge badge-warning text-white">Proses</a>
+                                    @if ($pengaduan->status == '0')
+                                    <span class="legend-indicator bg-danger"></span>Pending
+                                    @elseif ($pengaduan->status == 'proses')
+                                    <span class="legend-indicator bg-warning"></span>Proses
                                     @else
-                                    <a href="" class="badge badge-success">Selesai</a>
+                                    <span class="legend-indicator bg-success"></span>Selesai
                                     @endif
                                 </td>
                             </tr>
@@ -55,7 +55,7 @@
                         <form action="{{ route('tanggapan.createOrUpdate') }}" method="post">
                             @csrf
                             <input type="hidden" name="id_pengaduan" value="{{ $pengaduan->id_pengaduan }}">
-                            <div class="form-group">    
+                            <div class="form-group">
                                 <label for="status">Status</label>
                                 <div class="input-group mb-3">
                                     <select name="status" id="status" class="custom-select">
@@ -82,10 +82,10 @@
                             </div>
                             <button type="submit" class=" mt-3 btn btn-primary">KIRIM</button>
                         </form>
-                        @if (Session::has('status'))
-                        <div class="alert alert-danger">
-                            {{ Session::get('status') }}
-                        </div>
+                        @if (session('status'))
+                        <script>
+                            swal('Berhasil', '{{ session('status ') }}', 'status');
+                        </script>
                         @endif
                     </div>
                 </div>

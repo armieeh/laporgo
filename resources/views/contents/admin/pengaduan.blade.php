@@ -105,6 +105,7 @@
                             <th>Tanggal</th>
                             <th>Isi Laporan</th>
                             <th>Status</th>
+                            <th>Foto</th>
                             <th>Detail</th>
                         </tr>
                     </thead>

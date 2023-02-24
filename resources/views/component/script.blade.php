@@ -1,3 +1,4 @@
+<script src="{{ mix('js/app.js') }}"></script>
 <!-- JS Implementing Plugins -->
 <script src="/assets/js/vendor.min.js"></script>
 
