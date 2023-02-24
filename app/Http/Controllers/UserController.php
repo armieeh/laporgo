@@ -42,6 +42,32 @@ class UserController extends Controller
         }
     }
 
+    public function profile($nik)
+    {
+        $masyarakat = Masyarakat::where('nik', $nik)->first();
+
+        return view('contents.masyarakat.editProfile', compact('masyarakat'));
+    }
+
+    public function updateProfile(Request $request ,$nik)
+    {
+
+        $fileName = time() . $request->file('foto')->getClientOriginalName();
+        $path = $request->file('foto')->storeAs('foto-profile', $fileName);
+        $foto = '/storage/' .$path;
+        
+        Masyarakat::where('nik',$nik)->update([
+            'foto' => $foto,
+            'nik' => $request->nik,
+            'nama' => $request->nama,
+            'username' => $request->username,
+            'telp' => $request->telp,
+        ]);
+
+        return redirect()->back()->with('success','Profile berhasil di update');
+
+    }
+
     public function formRegister()
     {
         return view('contents.masyarakat.register');
@@ -60,8 +86,8 @@ class UserController extends Controller
             'nik' => 'required|min:16|max:16',
             'nama' => 'required|min:2',
             'username' => 'required|min:3',
-            'password' => 'required', //kenapa tidak di hash?
-            'telp' => 'required'
+            'password' => 'required',
+            'telp' => 'required',
         ]);
 
         if ($validate->fails()){
@@ -136,20 +162,15 @@ class UserController extends Controller
 
     public function laporan($siapa = '')
     {
+        $masyarakat = Masyarakat::all()->first();
         $terverifikasi = Pengaduan::where([['nik', Auth::guard('masyarakat')->user()->nik], ['status', '!=', '0']])->get()->count();
         $proses = Pengaduan::where([['nik', Auth::guard('masyarakat')->user()->nik], ['status', 'proses']])->get()->count();
         $selesai = Pengaduan::where([['nik', Auth::guard('masyarakat')->user()->nik], ['status', 'selesai']])->get()->count();
 
         $hitung = [$terverifikasi, $proses, $selesai];
 
-        if ($siapa == 'me') {
             $pengaduan = Pengaduan::where('nik', Auth::guard('masyarakat')->user()->nik)->orderBy('tgl_pengaduan', 'desc')->get();
             
-            return view('contents.masyarakat.laporan', ['pengaduan' => $pengaduan, 'hitung' => $hitung, 'siapa' => $siapa]);
-        } else {
-            $pengaduan = Pengaduan::where([['nik', '!=', Auth::guard('masyarakat')->user()->nik], ['status', '!=', '0']])->orderBy('tgl_pengaduan', 'desc')->get();
-
-            return view('contents.masyarakat.laporan', ['pengaduan' => $pengaduan, 'hitung' => $hitung, 'siapa' => $siapa]);
-        }
+            return view('contents.masyarakat.laporan', ['pengaduan' => $pengaduan, 'hitung' => $hitung, 'siapa' => $siapa], compact('masyarakat'));
     }
 }

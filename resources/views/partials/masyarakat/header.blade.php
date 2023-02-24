@@ -67,9 +67,6 @@
                                 <li class="nav-item">
                                     <a href="{{ route('pekat.formRegister') }}" class="btn btn-primary">Daftar</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="/loginadmin" class="btn btn-primary">admin</a>
-                                </li>
                             </ul>
                             @endauth
                         </div>

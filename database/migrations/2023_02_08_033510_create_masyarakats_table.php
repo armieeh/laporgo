@@ -17,6 +17,7 @@ return new class extends Migration
             $table->char('nik', 16)->primary();
             $table->string('nama', 35);
             $table->string('username', 25);
+            $table->string('foto')->nullable();
             $table->string('password');
             $table->string('telp', 13);
         });
