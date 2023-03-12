@@ -20,4 +20,12 @@ class Tanggapan extends Model
         'tanggapan',
         'id_petugas',
     ];
+
+    public function petugas(){
+        return $this->hasOne(Petugas::class, 'id_petugas', 'id_petugas');
+    }
+
+    public function pengaduan(){
+        return $this->belongsTo(Pengaduan::class, 'id_pengaduan');
+    }
 }

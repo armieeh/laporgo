@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Desa;
 use App\Models\Petugas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -12,12 +13,16 @@ class PetugasController extends Controller
 {
     public function index(){
 
-        $petugas = Petugas::all();
+        $petugas = Petugas::where('level', 'petugas')->get();
+        // $desa = Petugas::where('id_desa', 'id_desa')->get();
+
         return view('contents.petugas.index', ['petugas' => $petugas]);
     }
 
     public function create(){
-        return view('contents.petugas.create');
+
+        $desa = Desa::all();
+        return view('contents.petugas.create', compact('desa'));
     }
 
     public function store(Request $request){
@@ -40,16 +45,17 @@ class PetugasController extends Controller
         if ($username){
             return redirect()->back()->with(['username' => 'Username sudah digunakan']);
         }
-
+        // dd($request->all());
         Petugas::create([
             'nama' => $data['nama'],
             'username' => $data['username'],
             'password' => Hash::make($data['password']),
             'telp' => $data['telp'],
+            'id_desa' => $data['id_desa'],
             'level' => $data['level']
         ]);
 
-        return redirect()->route('petugas.index');
+        return redirect()->route('petugas.index')->with('pesan', 'Berhasil ditambahkan');
     }
 
     public function edit($id_petugas){

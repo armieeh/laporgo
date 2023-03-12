@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id('id_tanggapan');
             $table->unsignedBigInteger('id_pengaduan');
             $table->dateTime('tgl_pengaduan');
-            $table->text('tanggapan');
+            $table->text('tanggapan')->nullable();
             $table->unsignedBigInteger('id_petugas');
 
             $table->timestamps();

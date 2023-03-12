@@ -15,12 +15,15 @@ return new class extends Migration
     {
         Schema::create('pengaduan', function (Blueprint $table) {
             $table->id('id_pengaduan');
+            $table->unsignedBigInteger('id_desa');
             $table->date('tgl_pengaduan');
             $table->char('nik', 16);
+            $table->char('judul_laporan');
             $table->text('isi_laporan');
             $table->string('foto');
             $table->string('lokasi');
             $table->enum('status', ['0', 'proses', 'selesai']);
+            $table->unsignedBigInteger('id_kategori');
 
             $table->timestamps();
 

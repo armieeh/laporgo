@@ -1,5 +1,7 @@
 @extends('layouts.admin.master')
 
+@section('title','Detail Pengaduan')
+
 @section('content')
 
 <main id="content" role="main" class="main">
@@ -78,7 +80,7 @@
                             <div class="form-group">
                                 <label for="tanggapan">Tanggapan</label>
                                 <textarea name="tanggapan" id="tanggapan" rows="4" class="form-control"
-                                    placeholder="Belum ada tanggapan">{{ $tanggapan->tanggapan ?? '' }}</textarea>
+                                    placeholder="Belum ada tanggapan">{{ $pengaduan->tanggapan->tanggapan ?? '' }}</textarea>
                             </div>
                             <button type="submit" class=" mt-3 btn btn-primary">KIRIM</button>
                         </form>

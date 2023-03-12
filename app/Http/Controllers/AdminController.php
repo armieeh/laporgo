@@ -16,7 +16,8 @@ class AdminController extends Controller
         $petugas = Petugas::all()->count();
         $masyarakat = Masyarakat::all()->count();
         $proses = Pengaduan::where('status', 'proses')->get()->count();
-        $selesai = Pengaduan::where('status', 'proses')->get()->count();
+        $selesai = Pengaduan::where('status', 'selesai')->get()->count();
+        
 
         return view('contents.admin.index', ['petugas' => $petugas, 'masyarakat' => $masyarakat, 'proses' => $proses, 'selesai' => $selesai]);
     }

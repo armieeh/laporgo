@@ -1,5 +1,7 @@
 @extends('layouts.masyarakat.master')
 
+@section('title', 'Edit Profile')
+
 @section('content')
 
 <!-- Content -->
@@ -21,10 +23,6 @@
                             "targetAttr": "src",
                             "allowTypes": [".png", ".jpeg", ".jpg"]
                          }'>
-                        <label class="profile-cover-uploader-label btn btn-sm btn-white" for="profileCoverUplaoder">
-                            <i class="bi-camera-fill"></i>
-                            <span class="d-none d-sm-inline-block ms-1">Upload header</span>
-                        </label>
                     </div>
                     <!-- End Custom File Cover -->
                 </div>

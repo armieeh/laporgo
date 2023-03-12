@@ -1,5 +1,7 @@
 @extends('layouts.admin.master')
 
+@section('title', 'Edit Petugas')
+
 @section('content')
 
 <main id="content" role="main" class="main">
@@ -92,11 +94,7 @@
                     </div>
                     <button type="submit" class="btn btn-warning">Update</button>
                 </form>
-                <form action="{{ route('petugas.destroy', $petugas->id_petugas) }}" method="post">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger mt-2">Hapus</button>
-                </form>
+                
             </div>
         </div>
     </div>

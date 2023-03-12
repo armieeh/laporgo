@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
     <!-- Title -->
-    <title>Welcome to Front - Admin &amp; Dashboard Template!</title>
+    <title>Laporgo | @yield('title')</title>
   
     <!-- Favicon -->
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="/assets/img/logo.png">
   
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet">
@@ -18,10 +18,15 @@
     <!-- CSS Front Template -->
     <link rel="stylesheet" href="/assets/css/theme.minc619.css?v=1.0">
   
+    <link rel="stylesheet" href="./node_modules/quill/dist/quill.snow.css">
     <link rel="preload" href="/assets/css/theme.min.css" data-hs-appearance="default" as="style">
     <link rel="preload" href="/assets/css/theme-dark.min.css" data-hs-appearance="dark" as="style">
     <link rel="stylesheet" href="/assets/css/landing.css">
     <link rel="stylesheet" href="/assets/css/laporan.css">
+
+    <link rel="stylesheet" href="/node_modules/quill/dist/quill.snow.css">
+    <link rel="stylesheet" href="/node_modules/flatpickr/dist/flatpickr.min.css">
+
 
     <style data-hs-appearance-onload-styles>
       *

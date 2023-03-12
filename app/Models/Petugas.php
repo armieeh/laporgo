@@ -20,8 +20,19 @@ class Petugas extends Authenticatable
         'username',
         'password',
         'telp',
+        'id_desa',
         'level'
     ];
 
     public $timestamps = false;
+
+    public function tanggapan()
+    {
+        return $this->belongsTo(Tanggapan::class, 'id_petugas');
+    }
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class, 'id_desa', 'id_desa');
+    }
 }

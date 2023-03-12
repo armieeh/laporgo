@@ -1,5 +1,7 @@
 @extends('layouts.admin.master')
 
+@section('title', 'Halaman Petugas')
+
 @section('content')
 
 <main id="content" role="main" class="main">
@@ -15,7 +17,7 @@
             </div>
         </div>
         <!-- End Page Header -->
-        <a href="{{ route('petugas.create') }}" class="btn btn-success">Tambah Petugas</a>
+        <a href="{{ route('petugas.create') }}" class="btn btn-success mb-4">Tambah Petugas</a>
         <div class="card">
             <div class="card-header">
                 <div class="row justify-content-between align-items-center flex-grow-1">
@@ -104,6 +106,7 @@
                             <th>Nama Petugas</th>
                             <th>Username</th>
                             <th>No Telepon</th>
+                            <th>Desa / Instansi</th>
                             <th>Level</th>
                             <th>Detail</th>
                         </tr>
@@ -116,8 +119,16 @@
                             <td>{{ $p->nama }}</td>
                             <td>{{ $p->username }}</td>
                             <td>{{ $p->telp }}</td>
+                            <td>{{ $p->desa->nama_desa }}</td>
                             <td>{{ $p->level }}</td>
-                            <td><a href="{{ route('petugas.edit', $p->id_petugas) }}" class="btn btn-outline-primary">Lihat</a></td>
+                            <td>
+                                <a href="{{ route('petugas.edit', $p->id_petugas) }}" class="btn btn-outline-primary">Lihat</a>
+                                <form action="{{ route('petugas.destroy', $p->id_petugas) }}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-outline-danger">Hapus</button>
+                                </form>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -125,5 +136,19 @@
             </div>
             <!-- End Table -->
         </div>
-</main>
+</main> 
+@endsection
+
+@section('js')
+@if (session()->has('pesan'))
+<script>
+    $.toast({
+    heading: 'Success',
+    text: 'Laporan terkirim',
+    showHideTransition: 'slide',
+    position: 'top-right',
+    icon: 'success'
+    })
+</script>
+@endif
 @endsection

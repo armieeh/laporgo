@@ -8,11 +8,10 @@
         <nav class="js-mega-menu navbar-nav-wrap">
             <!-- Logo -->
 
-            <a class="navbar-brand" href="index.html" aria-label="Front">
-                <img class="navbar-brand-logo" src="assets/svg/logos/logo.svg" alt="Logo"
+            <a class="navbar-brand" href="/" aria-label="Front">
+                <img class="navbar-brand-logo" src="assets/img/laporgo.png" alt="Logo"
                     data-hs-theme-appearance="default">
-                <img class="navbar-brand-logo" src="assets/svg/logos-light/logo.svg" alt="Logo"
-                    data-hs-theme-appearance="dark">
+                <img class="navbar-brand-logo" src="assets/img/laporgo_wh.png" alt="Logo" data-hs-theme-appearance="dark">
             </a>
 
             <!-- End Logo -->
@@ -24,7 +23,6 @@
                     <button type="button" class="btn btn-ghost-secondary btn-icon rounded-circle"
                         id="selectThemeDropdown" data-bs-toggle="dropdown" aria-expanded="false"
                         data-bs-dropdown-animation>
-
                     </button>
 
                     <div class="dropdown-menu dropdown-menu-end navbar-dropdown-menu navbar-dropdown-menu-borderless"
@@ -43,66 +41,55 @@
                         </a>
                     </div>
                 </div>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    @if(Auth::guard('masyarakat')->check())
+                    <!-- Account -->
+                    <div class="dropdown">
+                        <a class="navbar-dropdown-account-wrapper" href="javascript:;" id="accountNavbarDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside"
+                            data-bs-dropdown-animation>
+                            <div class="avatar avatar-sm avatar-circle">
+                                <img class="bg-soft-primary avatar-img" src="/assets/img/user.png"
+                                    alt="Image Description">
+                            </div>
+                        </a>
 
-                <!-- End Style Switcher -->
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            @if(Auth::guard('masyarakat')->check())
-                            <ul class="navbar-nav text-center ml-auto">
-                                <li class="nav-item">
-                                    <a class="btn btn-primary text-white" href="{{ route('pekat.laporan') }}">Laporan</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="btn btn-primary text-white" href="{{ route('pekat.logout') }}">{{ Auth::guard('masyarakat')->user()->nama }}</a>
-                                </li>
-                            </ul>
-                            @else
-                            <ul class="navbar-nav text-center ml-auto">
-                                <li class="nav-item">
-                                    <a href="{{ route('pekat.loginForm') }}" class="btn btn-primary">Masuk</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('pekat.formRegister') }}" class="btn btn-primary">Daftar</a>
-                                </li>
-                            </ul>
-                            @endauth
+                        <div class="dropdown-menu dropdown-menu-end navbar-dropdown-menu navbar-dropdown-menu-borderless navbar-dropdown-account"
+                            aria-labelledby="accountNavbarDropdown" style="width: 16rem;">
+                            <div class="dropdown-item-text">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar avatar-sm avatar-circle">
+                                        <img class="avatar-img" src="/assets/img/user.png" alt="Image Description">
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-0">{{ Auth::guard('masyarakat')->user()->nama}}</h5>
+                                        <p class="card-text text-body">{{ Auth::guard('masyarakat')->user()->username}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('pekat.laporan') }}">Laporan Saya</a>
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('pekat.logout') }}">Logout</a>
                         </div>
+                    </div>
+                    <!-- End Account -->
+                    @else
+                    <ul class="navbar-nav text-center ml-auto">
+                        <li class="nav-item">
+                            <a href="{{ route('pekat.loginForm') }}" class="btn btn-primary">Login</a>
+                        </li>
+                    </ul>
+                    @endauth
+                </div>
             </div>
             <!-- End Secondary Content -->
 
-            <!-- Toggler -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarContainerNavDropdown" aria-controls="navbarContainerNavDropdown"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-default">
-                    <i class="bi-list"></i>
-                </span>
-                <span class="navbar-toggler-toggled">
-                    <i class="bi-x"></i>
-                </span>
-            </button>
-            <!-- End Toggler -->
-
             <!-- Collapse -->
             <div class="collapse navbar-collapse" id="navbarContainerNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link py-2 py-lg-3" href="documentation/index.html">Documentation <span
-                                class="badge bg-dark rounded-pill ms-1">v2.1.1</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link py-2 py-lg-3" href="https://htmlstream.com/contact-us"
-                            target="_blank">Support <i class="bi-box-arrow-up-right small ms-1"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link py-2 py-lg-3"
-                            href="https://themes.getbootstrap.com/product/front-admin-dashboard-template/"
-                            target="_blank">Buy Now</a>
-                    </li>
-                </ul>
+
             </div>
             <!-- End Collapse -->
         </nav>

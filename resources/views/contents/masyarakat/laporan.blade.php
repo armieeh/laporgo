@@ -1,5 +1,7 @@
 @extends('layouts.masyarakat.master')
 
+@section('title', 'Laporan')
+
 @section('content')
 
 <!-- Content -->
@@ -14,17 +16,13 @@
 
                     <!-- Custom File Cover -->
                     <div class="profile-cover-content profile-cover-uploader p-3">
-                        <input type="file" class="js-file-attach profile-cover-uploader-input" id="profileCoverUplaoder"
+                        <div type="file" class="js-file-attach profile-cover-uploader-input" id="profileCoverUplaoder"
                             data-hs-file-attach-options='{
                             "textTarget": "#profileCoverImg",
                             "mode": "image",
                             "targetAttr": "src",
                             "allowTypes": [".png", ".jpeg", ".jpg"]
-                         }'>
-                        <label class="profile-cover-uploader-label btn btn-sm btn-white" for="profileCoverUplaoder">
-                            <i class="bi-camera-fill"></i>
-                            <span class="d-none d-sm-inline-block ms-1">Upload header</span>
-                        </label>
+                         }'></div>
                     </div>
                     <!-- End Custom File Cover -->
                 </div>
@@ -36,8 +34,7 @@
                 <!-- Avatar -->
                 <label class="avatar avatar-xxl avatar-circle avatar-uploader profile-cover-avatar"
                     for="editAvatarUploaderModal">
-                    <img id="editAvatarImgModal" class="avatar-img" src="assets/img/160x160/img6.jpg"
-                        alt="Image Description">
+                    <img id="editAvatarImgModal" class="avatar-img" src="assets/img/user.png" alt="Image Description">
 
                     <input type="file" class="js-file-attach avatar-uploader-input" id="editAvatarUploaderModal"
                         data-hs-file-attach-options='{
@@ -48,33 +45,14 @@
                        }'>
 
                     <span class="avatar-uploader-trigger">
-                        <i class="bi-pencil-fill avatar-uploader-icon shadow-sm"></i>
+                        <a href="{{ route('pekat.editProfile', $masyarakat->nik) }}"></a>
                     </span>
                 </label>
                 <!-- End Avatar -->
 
-                <h1 class="page-header-title">Mark Williams <i class="bi-patch-check-fill fs-2 text-primary"
-                        data-bs-toggle="tooltip" data-bs-placement="top" title="Top endorsed"></i></h1>
+                <h1 class="page-header-title">{{ $masyarakat->nama }}</h1>
+                <span>{{ $masyarakat->username }}</span>
 
-                <!-- List -->
-                <ul class="list-inline list-px-2">
-                    <li class="list-inline-item">
-                        <i class="bi-building me-1"></i>
-                        <span>Pixeel Ltd.</span>
-                    </li>
-
-                    <li class="list-inline-item">
-                        <i class="bi-geo-alt me-1"></i>
-                        <a href="#">London,</a>
-                        <a href="#">UK</a>
-                    </li>
-
-                    <li class="list-inline-item">
-                        <i class="bi-calendar-week me-1"></i>
-                        <span>Joined March 2013</span>
-                    </li>
-                </ul>
-                <!-- End List -->
             </div>
             <!-- End Profile Header -->
 
@@ -105,55 +83,13 @@
                         <a class="nav-link {{ request('status') == 'selesai' ? 'active' : '' }}"
                             href="{{ route('pekat.laporan', ['status' => 'selesai']) }}">Selesai</a>
                     </li>
-
-                    <li class="nav-item ms-auto">
-                        <div class="d-flex gap-2">
-                            <a class="btn btn-white btn-sm" href="{{ route('pekat.editProfile', $masyarakat->nik) }}">
-                                <i class="bi-person-plus-fill me-1"></i> Edit profile
-                            </a>
-
-                            <a class="btn btn-white btn-icon btn-sm" href="#">
-                                <i class="bi-list-ul me-1"></i>
-                            </a>
-
-                            <!-- Dropdown -->
-                            <div class="dropdown nav-scroller-dropdown">
-                                <button type="button" class="btn btn-white btn-icon btn-sm" id="profileDropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi-three-dots-vertical"></i>
-                                </button>
-
-                                <div class="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="profileDropdown">
-                                    <span class="dropdown-header">Settings</span>
-
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi-share-fill dropdown-item-icon"></i> Share profile
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi-slash-circle dropdown-item-icon"></i> Block page and profile
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi-info-circle dropdown-item-icon"></i> Suggest edits
-                                    </a>
-
-                                    <div class="dropdown-divider"></div>
-
-                                    <span class="dropdown-header">Feedback</span>
-
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi-flag dropdown-item-icon"></i> Report
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- End Dropdown -->
-                        </div>
-                    </li>
                 </ul>
             </div>
             <!-- End Nav -->
 
-            <div class="row">
-                <div class="col-lg-7">
+            <!-- Teams -->
+            <div class="row ">
+                <div class="col-lg-7 mb-3 mb-lg-5">
                     <!-- Card -->
                     @if ($pengaduan->isEmpty())
                     <div class="col-lg-12">
@@ -161,66 +97,141 @@
                     </div>
                     @else
                     @foreach ($pengaduan as $k => $v)
-                    @if (request('status') && $v->status != request('status'))
-                    @continue
-                    @endif
+                    <div class="card mb-5">
+                        <!-- Body -->
+                        <div class="card-body pb-0">
+                            <div class="row align-items-center mb-2">
+                                <div class="col-9">
+                                    <h4 class="mb-1">
+                                        <img src="/assets/img/user.png" alt="" class="avatar avata-sm">
+                                        <a href="#">{{ $v->user->nama }}</a>
+                                    </h4>
+                                </div>
+                                <!-- End Col -->
 
-                    <div class="row">
-                        <div class="col-lg-4">
-                            @if (Auth::guard('masyarakat')->user()->gender ==
-                            'laki_laki')
-                            <img src="/assets/images/avatar/man.jpg"
-                                class="card-img img-fluid avatar-xs rounded-circle mx-3" alt="...">
-                            @endif
-                            @if (Auth::guard('masyarakat')->user()->gender ==
-                            'perempuan')
-                            <img src="/assets/images/avatar/girl.jpg"
-                                class="card-img img-fluid avatar-xs rounded-circle mx-3" alt="...">
-                            @endif
+                                <div class="col-3 text-end">
+                                    <!-- Dropdown -->
+                                    @if ($v->status == 0)
+                                    <div class="dropdowm">
+                                        <button type="button"
+                                            class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle"
+                                            id="teamsDropdown1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi-three-dots-vertical"></i>
+                                        </button>
+
+                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end"
+                                            aria-labelledby="teamsDropdown1">
+                                            <a class="dropdown-item text-danger" href="/delete/{{ $v->id_pengaduan }}">Delete</a>
+                                        </div>
+                                    </div>   
+                                    @endif
+                                    <!-- End Dropdown -->
+                                </div><hr>
+                                <!-- End Col -->
+                            </div>
+                            <!-- End Row -->
+
+                            <p class="fw-bold">{{ $v->judul_laporan }}</p>
+                            <p>{{ $v->isi_laporan }}</p>
+                            <span class="avatar avatar-xl avatar-4x3">
+                                <img class="avatar-img" src="/storage/{{ $v->foto }}" alt="Image Description">
+                            </span>
+
+                            <div class="card-footer border-0 pt-0 mt-5">
+                                <div class="list-group list-group-flush list-group-no-gutters">
+                                    <!-- List Item -->
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <span class="card-subtitle">Tanggal pengaduan:</span>
+                                            </div>
+                                            <!-- End Col -->
+
+                                            <div class="col-auto">
+                                                <p>{{ $v->tgl_pengaduan }}</p>
+                                            </div>
+                                            <!-- End Col -->
+                                        </div>
+                                    </div>
+                                    <!-- End List Item -->
+
+                                    <!-- List Item -->
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <span class="card-subtitle">status :</span>
+                                            </div>
+                                            <!-- End Col -->
+
+                                            <div class="col-auto">
+                                                <!-- Stars -->
+                                                <div class="d-flex gap-1">
+                                                    @if ($v->status == '0')
+                                                    <p class="badge bg-soft-danger text-danger p-2">Pending</p>
+                                                    @elseif($v->status == 'proses')
+                                                    <p class="badge bg-soft-warning text-warning p-2">
+                                                        {{ ucwords($v->status) }}
+                                                    </p>
+                                                    @else
+                                                    <p class="badge bg-soft-primary text-primary p-2">
+                                                        {{ ucwords($v->status) }}
+                                                    </p>
+                                                    @endif
+                                                </div>
+                                                <!-- End Stars -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                        <div class="col">
+                                            <span class="card-subtitle">kategori :</span>
+                                        </div>
+                                        <!-- End Col -->
+
+                                        <div class="col-auto">
+                                            <!-- Stars -->
+                                            <div class="d-flex gap-1">
+                                                <p class="badge bg-soft-primary text-primary p-2">{{ ucwords($v->kategori->kategori) }}</p>
+                                                    
+                                                </p>
+                                            </div>
+                                            <!-- End Stars -->
+                                        </div>
+                                        <!-- End Col -->
+                                        </div>
+                                    </div>
+                                    <!-- End List Item -->
+
+                                    <!-- List Item -->
+                                    <div class="list-group-item">
+                                        <div class="row align-items-center">
+                                            @if ($v->tanggapan == null)
+
+                                            <span class="card-subtitle text-center">Belum ada tanggapan</span>
+                                            @else
+                                            <span class="card-subtitle">Tanggapan dari : <span
+                                                    class="fw-bold">{{ $v->tanggapan->petugas->nama }}</span></span>
+                                            <p class="light">{{ $v->tanggapan->tanggapan }}</p>
+                                            @endif
+                                            <!-- End Col -->
+                                        </div>
+                                    </div>
+                                    <!-- End List Item -->
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="col-lg-4">
-                            @if ($v->hide_laporan == 2)
-                            <p>Anonymous</p>
-                            @else
-                            <p>{{ $v->user->nama }}</p>
-                            @endif
-                        </div>
+                        <!-- End Body -->
+
                     </div>
-
-                    @if ($v->status == '0')
-                    <p class="text-danger">Pending</p>
-                    @elseif($v->status == 'proses')
-                    <p class="text-warning">{{ ucwords($v->status) }}
-                    </p>
-                    @else
-                    <p class="text-success">{{ ucwords($v->status) }}
-                    </p>
-                    @endif
-
-                    <p>{{ $v->tgl_pengaduan }}</p>
-                    <h2><a href="/laporan/{{ $v->id_pengaduan }}/detail">{{ $v->judul_laporan }}</a>
-                    </h2>
-
-                    <p>{{ Str::limit($v->isi_laporan, 100) }} <a
-                            href="/laporan/{{ $v->id_pengaduan }}/detail">Selengkapnya</a> </p>
-
-                    <img src="/storage/{{ $v->report_main_image }}" alt="{{ 'Gambar '.$v->judul_laporan }}"
-                        class="img-fluid avatar-md">
-
-                    {{-- @if ($v->tanggapan != null)
-                                            <p class="mt-3 mb-1">
-                                                {{ '*Tanggapan dari '. $v->tanggapan->petugas->nama_petugas }}
-                    </p>
-                    <p class="light">{{ $v->tanggapan->tanggapan }}</p>
-                    @endif --}}
-                    <hr>
                     @endforeach
                     @endif
                     <!-- End Card -->
                 </div>
-                <!-- End Col -->
 
-                <div class="col-lg-5">
+                <div class="col-lg-5 mb-3 mb-lg-5">
                     <!-- Card -->
                     <div class="card mb-3 mb-lg-5">
                         <!-- Header -->
@@ -236,7 +247,7 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                     </div>
                                     <div class="ms-1">{{ $hitung[0] }}</div>
-                                    <h5>Pending</h5>
+                                    <h5>Semua</h5>
                                     <!-- Progress -->
                                 </div>
                                 <div class="col-xl-4">
@@ -260,104 +271,14 @@
                         <!-- End Body -->
                     </div>
                     <!-- End Card -->
-
-                    <!-- Card -->
-                    <div class="card card-centered mb-3 mb-lg-5">
-                        <!-- Header -->
-                        <div class="card-header card-header-content-between">
-                            <h4 class="card-header-title">Projects</h4>
-
-                            <!-- Dropdown -->
-                            <div class="dropdown">
-                                <button type="button" class="btn btn-ghost-secondary btn-icon btn-sm rounded-circle"
-                                    id="projectReportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi-three-dots-vertical"></i>
-                                </button>
-
-                                <div class="dropdown-menu dropdown-menu-end mt-1"
-                                    aria-labelledby="projectReportDropdown">
-                                    <span class="dropdown-header">Settings</span>
-
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi-share-fill dropdown-item-icon"></i> Share connections
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi-info-circle dropdown-item-icon"></i> Suggest edits
-                                    </a>
-
-                                    <div class="dropdown-divider"></div>
-
-                                    <span class="dropdown-header">Feedback</span>
-
-                                    <a class="dropdown-item" href="#">
-                                        <i class="bi-chat-left-dots dropdown-item-icon"></i> Report
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- End Dropdown -->
-                        </div>
-                        <!-- End Header -->
-
-                        <!-- Body -->
-                        <div class="card-body card-body-height card-body-centered">
-                            <img class="avatar avatar-xxl mb-3" src="assets/svg/illustrations/oc-error.svg"
-                                alt="Image Description" data-hs-theme-appearance="default">
-                            <img class="avatar avatar-xxl mb-3" src="assets/svg/illustrations-light/oc-error.svg"
-                                alt="Image Description" data-hs-theme-appearance="dark">
-                            <p class="card-text">No data to show</p>
-                            <a class="btn btn-white btn-sm" href="projects.html">Start your Projects</a>
-                        </div>
-                        <!-- End Body -->
-                    </div>
-                    <!-- End Card -->
                 </div>
-                <!-- End Col -->
             </div>
-            <!-- End Row -->
+            <!-- End Teams -->
         </div>
-        <!-- End Col -->
     </div>
-    <!-- End Row -->
 </div>
+
+
 <!-- End Content -->
-
-<!-- Footer -->
-
-<div class="footer">
-    <div class="row justify-content-between align-items-center">
-        <div class="col">
-            <p class="fs-6 mb-0">&copy; Front. <span class="d-none d-sm-inline-block">2022 Htmlstream.</span></p>
-        </div>
-        <!-- End Col -->
-
-        <div class="col-auto">
-            <div class="d-flex justify-content-end">
-                <!-- List Separator -->
-                <ul class="list-inline list-separator">
-                    <li class="list-inline-item">
-                        <a class="list-separator-link" href="#">FAQ</a>
-                    </li>
-
-                    <li class="list-inline-item">
-                        <a class="list-separator-link" href="#">License</a>
-                    </li>
-
-                    <li class="list-inline-item">
-                        <!-- Keyboard Shortcuts Toggle -->
-                        <button class="btn btn-ghost-secondary btn btn-icon btn-ghost-secondary rounded-circle"
-                            type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasKeyboardShortcuts"
-                            aria-controls="offcanvasKeyboardShortcuts">
-                            <i class="bi-command"></i>
-                        </button>
-                        <!-- End Keyboard Shortcuts Toggle -->
-                    </li>
-                </ul>
-                <!-- End List Separator -->
-            </div>
-        </div>
-        <!-- End Col -->
-    </div>
-    <!-- End Row -->
-</div>
 
 @endsection

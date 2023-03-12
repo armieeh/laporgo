@@ -1,5 +1,7 @@
 @extends('layouts.admin.master')
 
+@section('title', 'Halaman Pengaduan')
+
 @section('content')
 
 <main id="content" role="main" class="main">
@@ -23,6 +25,7 @@
                         <h4 class="card-header-title">Pengaduan</h4>
                     </div>
 
+                    @if (Auth::guard('admin')->user()->level == 'admin')
                     <div class="col-auto">
                         <!-- Dropdown -->
                         <div class="dropdown me-2">
@@ -65,6 +68,8 @@
                         </div>
                         <!-- End Dropdown -->
                     </div>
+                    @else
+                    @endif
                 </div>
             </div>
 
@@ -103,7 +108,9 @@
                             <th>No</th>
                             <th>Nama Pengguna</th>
                             <th>Tanggal</th>
+                            <th>Judul Laporan</th>
                             <th>Isi Laporan</th>
+                            <th>Desa</th>
                             <th>Status</th>
                             <th>Foto</th>
                             <th>Detail</th>
@@ -123,7 +130,9 @@
                             <td>
                                 <span class="d-block h5 mb-0">{{ $p->tgl_pengaduan }}</span>
                             </td>
-                            <td>{{ $p->isi_laporan }}</td>
+                            <td>{{ $p->judul_laporan }}</td>
+                            <td>{{ Str::limit($p->isi_laporan, 25) }}</td>
+                            <td>{{ $p->desa->nama_desa }}</td>
                             <td>
                                 @if ($p->status == '0')
                                 <span class="legend-indicator bg-danger"></span>Pending
@@ -133,7 +142,7 @@
                                 <span class="legend-indicator bg-success"></span>Selesai
                                 @endif
                             </td>
-                            <td><img src="/storage/{{ $p->foto }}" alt="" class="w-25"></td>
+                            <td><img src="/storage/{{ $p->foto }}" alt="" class="w-100 h-100"></td>
                             <td><a href="{{ route('pengaduan.show', $p->id_pengaduan) }}"
                                     class="btn btn-outline-primary">Lihat</a>
                             </td>

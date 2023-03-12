@@ -24,6 +24,7 @@ Route::get('/', [UserController::class, 'index']);
 
 Route::middleware(['isMasyarakat'])->group(function(){
     Route::post('/store', [UserController::class, 'storePengaduan'])->name('pekat.store');
+    Route::get('/delete/{id_pengaduan}', [UserController::class, 'destroy'])->name('pekat.delete');
     Route::get('/laporan', [UserController::class, 'laporan'])->name('pekat.laporan');
     Route::get('/profile/{nik}', [UserController::class, 'profile'])->name('pekat.editProfile');
     Route::post('/update/{nik}', [UserController::class, 'updateProfile']);

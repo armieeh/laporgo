@@ -1,5 +1,7 @@
 @extends('layouts.admin.master')
 
+@section('Halaman Laporan')
+
 @section('content')
 
 <main id="content" role="main" class="main">

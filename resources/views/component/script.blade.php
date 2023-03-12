@@ -7,78 +7,96 @@
 <script src="/assets/js/theme.min.js"></script>
 <script src="/assets/js/hs.theme-appearance-charts.js"></script>
 
+{{-- tulis text --}}
+<script src="/node_modules/quill/dist/quill.min.js"></script>
+<script src="/assets/js/hs.quill.js"></script>
+
+<script src="/node_modules/flatpickr/dist/flatpickr.min.js"></script>
+<script src="/assets/js/hs.flatpickr.js"></script>
+
+<script src="/node_modules/dropzone/dist/min/dropzone.min.js"></script>
+<script src="/assets/js/hs.dropzone.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script> 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.js"></script>
+
+<script>
+  (function() {
+    // INITIALIZATION OF DROPZONE
+    // =======================================================
+    HSCore.components.HSDropzone.init('.js-dropzone')
+  })();
+</script>
+
+<script>
+  (function() {
+    // INITIALIZATION OF FLATPICKR
+    // =======================================================
+    HSCore.components.HSFlatpickr.init('.js-flatpickr')
+  })();
+</script>
+
+<script>
+  (function() {
+    // INITIALIZATION OF QUILLJS EDITOR
+    // =======================================================
+    HSCore.components.HSQuill.init('.js-quill')
+  })();
+</script>
+
+
 <!-- JS Plugins Init. -->
 <script>
-  $(document).on('ready', function () {
-    // INITIALIZATION OF DATERANGEPICKER
+  (function() {
+    // INITIALIZATION OF HEADER
     // =======================================================
-    $('.js-daterangepicker').daterangepicker();
-
-    $('.js-daterangepicker-times').daterangepicker({
-      timePicker: true,
-      startDate: moment().startOf('hour'),
-      endDate: moment().startOf('hour').add(32, 'hour'),
-      locale: {
-        format: 'M/DD hh:mm A'
-      }
-    });
-
-    var start = moment();
-    var end = moment();
-
-    function cb(start, end) {
-      $('#js-daterangepicker-predefined .js-daterangepicker-predefined-preview').html(start.format('MMM D') + ' - ' + end.format('MMM D, YYYY'));
-    }
-
-    $('#js-daterangepicker-predefined').daterangepicker({
-      startDate: start,
-      endDate: end,
-      ranges: {
-        'Today': [moment(), moment()],
-        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-        'This Month': [moment().startOf('month'), moment().endOf('month')],
-        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-      }
-    }, cb);
-
-    cb(start, end);
-  });
+    new HSHeader('#header').init()
 
 
-  // INITIALIZATION OF DATATABLES
-  // =======================================================
-  HSCore.components.HSDatatables.init($('#datatable'), {
-    select: {
-      style: 'multi',
-      selector: 'td:first-child input[type="checkbox"]',
-      classMap: {
-        checkAll: '#datatableCheckAll',
-        counter: '#datatableCounter',
-        counterInfo: '#datatableCounterInfo'
-      }
-    },
-    language: {
-      zeroRecords: `<div class="text-center p-4">
-            <img class="mb-3" src="./assets/svg/illustrations/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="default">
-            <img class="mb-3" src="./assets/svg/illustrations-light/oc-error.svg" alt="Image Description" style="width: 10rem;" data-hs-theme-appearance="dark">
-          <p class="mb-0">No data to show</p>
-          </div>`
-    }
-  });
-
-  const datatable = HSCore.components.HSDatatables.getItem(0)
-
-  document.querySelectorAll('.js-datatable-filter').forEach(function (item) {
-    item.addEventListener('change',function(e) {
-      const elVal = e.target.value,
-  targetColumnIndex = e.target.getAttribute('data-target-column-index'),
-  targetTable = e.target.getAttribute('data-target-table');
-
-  HSCore.components.HSDatatables.getItem(targetTable).column(targetColumnIndex).search(elVal !== 'null' ? elVal : '').draw()
+    // INITIALIZATION OF NAV SCROLLER
+    // =======================================================
+    new HsNavScroller('.js-nav-scroller', {
+      delay: 400,
+      offset: 140
     })
-  })
+
+
+    // INITIALIZATION OF LISTJS COMPONENT
+    // =======================================================
+    HSCore.components.HSList.init('#docsSearch');
+    const docsSearch = HSCore.components.HSList.getItem('docsSearch');
+
+
+    // GET JSON FILE RESULTS
+    // =======================================================
+    fetch('../assets/json/docs-search.json')
+    .then(response => response.json())
+    .then(data => {
+      docsSearch.add(data)
+    })
+
+
+    // INITIALIZATION OF GO TO
+    // =======================================================
+    new HSGoTo('.js-go-to')
+
+
+    // INITIALIZATION OF FLATPICKR
+    // =======================================================
+    HSCore.components.HSFlatpickr.init('.js-flatpickr')
+
+    HSCore.components.HSFlatpickr.init('#js-flatpickr-disabling-dates', {
+      disable: [
+        function (date) {
+          // return true to disable
+          return (date.getDay() === 0 || date.getDay() === 6);
+        }
+      ]
+    })
+  })()
 </script>
 
 <!-- JS Plugins Init. -->

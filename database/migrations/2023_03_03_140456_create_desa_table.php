@@ -13,17 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('petugas', function (Blueprint $table) {
-            $table->id('id_petugas');
-            $table->string('nama', 35);
-            $table->string('username', 25)->unique();
-            $table->unsignedBigInteger('id_desa');
-            $table->string('password');
-            $table->string('telp', 13);
-            $table->enum('level', ['admin','petugas']);
-
+        Schema::create('desa', function (Blueprint $table) {
+            $table->id('id_desa');
+            // $table->unsignedBigInteger('id_petugas');
+            $table->string('nama_desa');
             $table->timestamps();
 
+            // $table->foreign('id_petugas')->references('id_petugas')->on('petugas');
         });
     }
 
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('petugas');
+        Schema::dropIfExists('desa');
     }
 };

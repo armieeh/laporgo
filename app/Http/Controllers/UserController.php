@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Desa;
+use App\Models\Kategori;
 use App\Models\Pengaduan;
 use App\Models\Masyarakat;
 use Illuminate\Http\Request;
@@ -13,7 +15,9 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('contents.masyarakat.index');
+        $desa = Desa::all();
+        $kategori = Kategori::all();
+        return view('contents.masyarakat.index', compact('desa', 'kategori'));
     }
 
     public function loginForm()
@@ -68,11 +72,6 @@ class UserController extends Controller
 
     }
 
-    public function formRegister()
-    {
-        return view('contents.masyarakat.register');
-    }
-
     public function registerform()
     {
         return view('contents.masyarakat.register');
@@ -84,14 +83,14 @@ class UserController extends Controller
 
         $validate = Validator::make($data, [
             'nik' => 'required|min:16|max:16',
-            'nama' => 'required|min:2',
+            'nama' => 'required',
             'username' => 'required|min:3',
-            'password' => 'required',
+            'password' => 'required|min:8',
             'telp' => 'required',
         ]);
 
         if ($validate->fails()){
-            return redirect()->back()->with(['pesan' => $validate->errors()]); //errors tuh nama yang kita buat atau dari sananya
+            return redirect()->back()->with(['pesan' => $validate->errors()]); 
         }
 
         $username = Masyarakat::where('username', $request->username)->first();
@@ -126,9 +125,11 @@ class UserController extends Controller
         $data = $request->all();
 
         $validate = Validator::make($data,[
+            'judul_laporan' => 'required|min:5',
             'isi_laporan' => 'required|min:10',
             'tgl_pengaduan' => 'required',
             'lokasi' => 'required',
+            'id_kategori' => 'required',
             'foto' => 'image|mimes:jpg,png,jpeg,gif,svg|max:10000'
         ]);
 
@@ -145,13 +146,14 @@ class UserController extends Controller
         $pengaduan = Pengaduan::create([
             'tgl_pengaduan' => date('Y-m-d h:i:s'),
             'nik' => Auth::guard('masyarakat')->user()->nik,
+            'judul_laporan' => $data['judul_laporan'],
             'isi_laporan' => $data['isi_laporan'],
             'lokasi' => $data['lokasi'],
+            'id_kategori' => $data['id_kategori'],
+            'id_desa' => $data['id_desa'],
             'foto' => $data['foto'] ?? '',
             'status' => '0',
         ]);
-
-        // dd($request->all());
 
         if ($pengaduan) {
             return redirect()->route('pekat.laporan', 'me')->with(['pengaduan' => 'Berhasil terkirim!', 'type' => 'success']);
@@ -160,10 +162,19 @@ class UserController extends Controller
         }
     }
 
+    public function destroy($id_pengaduan){
+
+        $pengaduan = Pengaduan::findOrFail($id_pengaduan);
+
+        $pengaduan->delete();
+
+        return redirect()->route('pekat.laporan');
+    }
+
     public function laporan($siapa = '')
     {
         $masyarakat = Masyarakat::all()->first();
-        $terverifikasi = Pengaduan::where([['nik', Auth::guard('masyarakat')->user()->nik], ['status', '!=', '0']])->get()->count();
+        $terverifikasi = Pengaduan::where([['nik', Auth::guard('masyarakat')->user()->nik]])->get()->count();
         $proses = Pengaduan::where([['nik', Auth::guard('masyarakat')->user()->nik], ['status', 'proses']])->get()->count();
         $selesai = Pengaduan::where([['nik', Auth::guard('masyarakat')->user()->nik], ['status', 'selesai']])->get()->count();
 

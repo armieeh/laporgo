@@ -1,5 +1,7 @@
 @extends('layouts.admin.master')
 
+@section('title', 'Tambah Petugas')
+
 @section('content')
 
 <main id="content" role="main" class="main">
@@ -34,7 +36,7 @@
                                 <i class="bi-person"></i>
                             </div>
                             <input name="username" type="text" class="form-control" id="inputGroupHoverLightEmail"
-                                placeholder="petugas@gmail.com" aria-label="petugas@gmail.com"
+                                placeholder="petugas" aria-label="petugas@gmail.com"
                                 aria-describedby="inputGroupHoverLightEmailAddOn">
                         </div>
                     </div>
@@ -70,6 +72,19 @@
                     </div>
                     <!-- End Input Group -->
 
+                    <div class="mb-3">
+                        <label for="inputhover" class="form-label">Desa / Instansi</label>
+
+                        <div class="input-group input-group-merge input-group-hover-light">
+                            <select name="id_desa" id="id_desa" class="form-select">
+                                <option value="0">pilih desa</option>
+                                @foreach ($desa as $item)
+                                <option value="{{ $item->id_desa }}">{{ $item->nama_desa }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
                     <!-- Input Group -->
                     <div class="mb-3">
                         <label for="inputGroupHoverLightGenderSelect" class="form-label">Level</label>
@@ -89,14 +104,14 @@
                 </form>
                 <div>
                     @if (Session::has('username'))
-                        <div class="alert alert-danger">
-                            {{ Session::get('username') }}
-                        </div>
+                    <div class="alert alert-danger">
+                        {{ Session::get('username') }}
+                    </div>
                     @endif
                     @foreach ($errors->all() as $error)
-                        <div class="alert alert-danger">
-                            {{ $error }}
-                        </div>
+                    <div class="alert alert-danger">
+                        {{ $error }}
+                    </div>
                     @endforeach
                 </div>
             </div>

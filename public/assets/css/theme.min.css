@@ -58,7 +58,7 @@
     --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;
     --bs-body-color: #677788;
-    --bs-body-bg: #fff;
+    --bs-body-bg: #ffffff;
     --bs-border-width: 0.0625rem;
     --bs-border-style: solid;
     --bs-border-color: rgba(231, 234, 243, 0.7);
@@ -21047,7 +21047,7 @@ fieldset:disabled .btn {
     justify-content: center;
     -ms-flex-align: center;
     align-items: center;
-    font-size: .875rem;
+    font-size: 1.5rem;
     font-weight: 600;
     width: 2.625rem;
     height: 2.625rem;
@@ -24999,8 +24999,8 @@ label.form-control {
 
 .navbar-brand-logo {
     width: 100%;
-    min-width: 6.5rem;
-    max-width: 6.5rem
+    min-width: 10rem;
+    max-width: 10rem
 }
 
 .navbar-brand-logo-short {

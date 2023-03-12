@@ -24,7 +24,7 @@ class TanggapanController extends Controller
                 'id_petugas' => Auth::guard('admin')->user()->id_petugas,
             ]);
 
-            return redirect()->route('pengaduan.show', ['pengaduan' => $pengaduan, 'tanggapan' => $tanggapan]);
+            return redirect()->route('pengaduan.index', ['pengaduan' => $pengaduan, 'tanggapan' => $tanggapan]);
         } else {
             $pengaduan->update(['status' => $request->status]);
 
@@ -35,7 +35,7 @@ class TanggapanController extends Controller
                 'id_petugas' => Auth::guard('admin')->user()->id_petugas,
             ]);
 
-            return redirect()->route('pengaduan.show', ['pengaduan' => $pengaduan, 'tanggapan' => $tanggapan])->with(['status' => 'Berhasil Dikrim!']);
+            return redirect()->route('pengaduan.index', ['pengaduan' => $pengaduan, 'tanggapan' => $tanggapan])->with(['status' => 'Berhasil Dikrim!']);
         }
     }
 }
