@@ -125,20 +125,25 @@ class UserController extends Controller
         $data = $request->all();
 
         $validate = Validator::make($data,[
-            'judul_laporan' => 'required|min:5',
-            'isi_laporan' => 'required|min:10',
-            'tgl_pengaduan' => 'required',
-            'lokasi' => 'required',
-            'id_kategori' => 'required',
-            'foto' => 'image|mimes:jpg,png,jpeg,gif,svg|max:10000'
+            // 'judul_laporan' => 'required|min:5',
+            // 'isi_laporan' => 'required|min:10',
+            // 'tgl_pengaduan' => 'required',
+            // 'lokasi' => 'required',
+            // 'id_kategori' => 'required',
+            // 'foto' => 'image|mimes:jpg,png,jpeg,gif,svg|max:10000'
         ]);
 
         if ($validate->fails()){
             return redirect()->back()->withInput()->withErrors($validate);
         }
 
-        if ($request->file('foto')) {
-            $data['foto'] = $request->file('foto')->store('assets/pengaduan', 'public');
+        $image = [];
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $key) {
+                $path = $key->store('assets/pengaduan', 'public');
+                $image[] = $path;
+            }
         }
 
         date_default_timezone_set('Asia/Bangkok');
@@ -151,7 +156,7 @@ class UserController extends Controller
             'lokasi' => $data['lokasi'],
             'id_kategori' => $data['id_kategori'],
             'id_desa' => $data['id_desa'],
-            'foto' => $data['foto'] ?? '',
+            'foto' => implode('|', $image) ?? '',
             'status' => '0',
         ]);
 

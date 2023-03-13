@@ -14,8 +14,13 @@
   <!-- CSS Front Template -->
   <link rel="stylesheet" href="/assets/css/theme.minc619.css?v=1.0">
 
+  <link rel="stylesheet" href="/assets/css/mystyle.css">
+
   <link rel="preload" href="/assets/css/theme.min.css" data-hs-appearance="default" as="style">
   <link rel="preload" href="/assets/css/theme-dark.min.css" data-hs-appearance="dark" as="style">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css">
 
   <style data-hs-appearance-onload-styles>
     *

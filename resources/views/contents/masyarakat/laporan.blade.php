@@ -96,7 +96,12 @@
                         <h6 class="text-center">Belum ada pengaduan</h6>
                     </div>
                     @else
+
+                    
                     @foreach ($pengaduan as $k => $v)
+                    @if (request('status') && $v->status != request('status'))
+                        @continue
+                    @endif
                     <div class="card mb-5">
                         <!-- Body -->
                         <div class="card-body pb-0">
@@ -121,12 +126,14 @@
 
                                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end"
                                             aria-labelledby="teamsDropdown1">
-                                            <a class="dropdown-item text-danger" href="/delete/{{ $v->id_pengaduan }}">Delete</a>
+                                            <a class="dropdown-item text-danger"
+                                                href="/delete/{{ $v->id_pengaduan }}">Delete</a>
                                         </div>
-                                    </div>   
+                                    </div>
                                     @endif
                                     <!-- End Dropdown -->
-                                </div><hr>
+                                </div>
+                                <hr>
                                 <!-- End Col -->
                             </div>
                             <!-- End Row -->
@@ -134,7 +141,12 @@
                             <p class="fw-bold">{{ $v->judul_laporan }}</p>
                             <p>{{ $v->isi_laporan }}</p>
                             <span class="avatar avatar-xl avatar-4x3">
-                                <img class="avatar-img" src="/storage/{{ $v->foto }}" alt="Image Description">
+                                <div class="d-lg-flex d-none justify-content-start">
+
+                                    @foreach (explode('|', $v->foto) as $foto)
+                                    <img class="avatar-img me-2" src="/storage/{{ $foto }}" alt="Image Description">
+                                    @endforeach
+                                </div>
                             </span>
 
                             <div class="card-footer border-0 pt-0 mt-5">
@@ -148,7 +160,7 @@
                                             <!-- End Col -->
 
                                             <div class="col-auto">
-                                                <p>{{ $v->tgl_pengaduan }}</p>
+                                                <p class="">{{ $v->tgl_pengaduan }}</p>
                                             </div>
                                             <!-- End Col -->
                                         </div>
@@ -167,13 +179,13 @@
                                                 <!-- Stars -->
                                                 <div class="d-flex gap-1">
                                                     @if ($v->status == '0')
-                                                    <p class="badge bg-soft-danger text-danger p-2">Pending</p>
+                                                    <p class="badge bg-soft-danger text-danger">Pending</p>
                                                     @elseif($v->status == 'proses')
-                                                    <p class="badge bg-soft-warning text-warning p-2">
+                                                    <p class="badge bg-soft-warning text-warning">
                                                         {{ ucwords($v->status) }}
                                                     </p>
                                                     @else
-                                                    <p class="badge bg-soft-primary text-primary p-2">
+                                                    <p class="badge bg-soft-primary text-primary">
                                                         {{ ucwords($v->status) }}
                                                     </p>
                                                     @endif
@@ -185,21 +197,22 @@
                                     </div>
                                     <div class="list-group-item">
                                         <div class="row align-items-center">
-                                        <div class="col">
-                                            <span class="card-subtitle">kategori :</span>
-                                        </div>
-                                        <!-- End Col -->
-
-                                        <div class="col-auto">
-                                            <!-- Stars -->
-                                            <div class="d-flex gap-1">
-                                                <p class="badge bg-soft-primary text-primary p-2">{{ ucwords($v->kategori->kategori) }}</p>
-                                                    
-                                                </p>
+                                            <div class="col">
+                                                <span class="card-subtitle">kategori :</span>
                                             </div>
-                                            <!-- End Stars -->
-                                        </div>
-                                        <!-- End Col -->
+                                            <!-- End Col -->
+
+                                            <div class="col-auto">
+                                                <!-- Stars -->
+                                                <div class="d-flex gap-1">
+                                                    <p class="badge bg-soft-primary text-primary">
+                                                        {{ ucwords($v->kategori->kategori) }}</p>
+
+                                                    </p>
+                                                </div>
+                                                <!-- End Stars -->
+                                            </div>
+                                            <!-- End Col -->
                                         </div>
                                     </div>
                                     <!-- End List Item -->

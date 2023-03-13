@@ -2222,6 +2222,7 @@
   <!-- End Create a new user Modal -->
   <!-- ========== END SECONDARY CONTENTS ========== -->
 @include('component.script')
+@yield('js')
 </body>
 
 <!-- Mirrored from htmlstream.com/preview/front-dashboard-v2.1.1/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 Feb 2023 14:23:12 GMT -->

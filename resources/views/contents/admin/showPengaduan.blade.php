@@ -20,12 +20,6 @@
                                 <td>{{ $pengaduan->tgl_pengaduan }}</td>
                             </tr>
                             <tr>
-                                <td>Foto</td>
-                                <td>:</td>
-                                <td><img src="{{ Storage::url($pengaduan->foto) }}" alt="Foto Pengaduan"
-                                        class="embed-responsive" style="width: 200px"></td>
-                            </tr>
-                            <tr>
                                 <td>Isi Laporan</td>
                                 <td>:</td>
                                 <td>{{ $pengaduan->isi_laporan }}</td>
@@ -41,6 +35,38 @@
                                     @else
                                     <span class="legend-indicator bg-success"></span>Selesai
                                     @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Foto</td>
+                                <td>:</td>
+                                <td>
+                                    <div class="d-lg-flex d-none justify-content-start">
+
+                                        @foreach (explode('|', $pengaduan->foto) as $foto)
+
+                                        <img src="/storage/{{ $foto }}" alt="Gambar" data-bs-toggle="modal"
+                                            data-bs-target="#imageModal" data-src="/storage/{{ $foto}}"
+                                            alt="Foto Pengaduan" class="embed-responsive me-2 gambar-lampiran"
+                                            style="width: 50px">
+
+                                        @endforeach
+                                        <!-- Modal image -->
+
+                                        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog"
+                                            aria-labelledby="imageModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content modal-ctn">
+                                                    <div class="modal-body text-center">
+                                                        <img id="modalImage" src="" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- end modal image --}}
+                                    </div>
+                                    {{-- <img src="{{ Storage::url($pengaduan->foto) }}" > --}}
                                 </td>
                             </tr>
                         </tbody>
@@ -60,7 +86,7 @@
                             <div class="form-group">
                                 <label for="status">Status</label>
                                 <div class="input-group mb-3">
-                                    <select name="status" id="status" class="custom-select">
+                                    <select name="status" id="status" class="custom-select form-control">
                                         @if ($pengaduan->status = '0')
                                         <option selected value="0">Pending</option>
                                         <option value="proses">Proses</option>
@@ -86,7 +112,9 @@
                         </form>
                         @if (session('status'))
                         <script>
-                            swal('Berhasil', '{{ session('status ') }}', 'status');
+                            swal('Berhasil', '{{ session('
+                                status ') }}', 'status');
+
                         </script>
                         @endif
                     </div>

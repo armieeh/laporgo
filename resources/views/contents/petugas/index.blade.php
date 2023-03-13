@@ -122,11 +122,11 @@
                             <td>{{ $p->desa->nama_desa }}</td>
                             <td>{{ $p->level }}</td>
                             <td>
-                                <a href="{{ route('petugas.edit', $p->id_petugas) }}" class="btn btn-outline-primary">Lihat</a>
+                                <a href="{{ route('petugas.edit', $p->id_petugas) }}" class="btn btn-outline-primary btn-sm">Lihat</a>
                                 <form action="{{ route('petugas.destroy', $p->id_petugas) }}" method="post">
                                     @csrf
                                     @method('delete')
-                                    <button type="submit" class="btn btn-outline-danger">Hapus</button>
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
                                 </form>
                             </td>
                         </tr>
@@ -140,11 +140,11 @@
 @endsection
 
 @section('js')
-@if (session()->has('pesan'))
+@if (session('pesan'))
 <script>
     $.toast({
     heading: 'Success',
-    text: 'Laporan terkirim',
+    text: 'Berhasil dirtambahkan',
     showHideTransition: 'slide',
     position: 'top-right',
     icon: 'success'

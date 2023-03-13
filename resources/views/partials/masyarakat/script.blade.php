@@ -4,6 +4,12 @@
 <!-- JS Front -->
 <script src="/assets/js/theme.min.js"></script>
 
+<script src="/assets/js/myscript.js"></script>
+<script src="/node_modules/bootstrap-icons-1.10.3"></script>
+<script src="/node_modules/bootstrap-icons-1.10.3/fonts"></script>
+
+
+
 <!-- JS Plugins Init. -->
 <script>
   (function() {

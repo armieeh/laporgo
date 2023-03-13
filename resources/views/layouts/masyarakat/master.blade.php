@@ -32,6 +32,7 @@
   <!-- ========== END FOOTER ========== -->
 
   @include('partials.masyarakat.script')
+  @yield('js')
   
 </body>
 

@@ -55,7 +55,7 @@
 <div class="container-xl w-75 mt-5 mt-lg-5">
     <div class="">
         <!-- Card -->
-        <div class="card card-lg card-transition h-100 bg-light border-0 shadow-none overflow-hidden">
+        <div class="card card-lg h-100 bg-light border-0 shadow-none ">
             <div class="card-body">
                 <h2 class="mb-5 card-title h1 text-inherit text-center">Sampaikan Laporan Anda!</h2>
                 <form action="{{ route('pekat.store') }}" method="post" enctype="multipart/form-data">
@@ -63,8 +63,7 @@
                     <div class="mb-3">
                         <div class="input-group input-group-merge input-group-light">
                             <input name="judul_laporan" id="exampleFormControlTextarea1" class="form-control"
-                                placeholder="Masukkan Judul Laporan*" rows="4"
-                                value="{{ old('judul_laporan') }}">
+                                placeholder="Masukkan Judul Laporan*" rows="4" value="{{ old('judul_laporan') }}">
                         </div>
                     </div>
 
@@ -116,16 +115,49 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-check form-check-dashed" for="logoUploader">
-                            <img id="logoImg" class="avatar avatar-md avatar-4x3 avatar-centered h-100 mb-2"
-                                src="../assets/svg/illustrations/oc-browse.svg" alt="Image Description">
-                            <span class="d-block">Browse your file here</span>
-                            <input name="foto" type="file" class="form-check-input" id="logoUploader"
-                                value="{{ old('foto') }}">
-                        </label>
+                        <input type="file" name="images[]" accept="image/*" multiple
+                            class="form-control @error('images') is-invalid @enderror" id="image">
+                        <div class="row mt-2" id="image-preview-container" style="display:none;">
+                            <div class="col-12" id="image-preview"></div>
+                        </div>
+                        @error('images')
+                        <small class="invalid-feedback">
+                            {{ $message }}
+                        </small>
+                        @enderror
                     </div>
                     <div class="mt-5 text-end">
+                        @if (Auth::guard('masyarakat')->check())
                         <button type="submit" class="btn btn-primary">LAPOR!</button>
+                        @else
+                        <!-- Toast Luncher -->
+                        <button id="liveToastBtn" class="btn btn-primary" type="button">LAPOR!</button>
+
+                        <!-- Toast -->
+                        <div id="liveToast" class="position-fixed toast hide" role="alert" aria-live="assertive"
+                            aria-atomic="true" style="top: 20px; right: 20px; z-index: 1000;" autofocus>
+                            <div class="toast-header">
+                                <div class="d-flex align-items-center flex-grow-1">
+                                    <div class="flex-shrink-0">
+                                        <i class="bi bi-exclamation-circle" height="40" width="40"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5 class="mb-0">TIdak bisa mengirim laporan</h5>
+                                    </div>
+                                    <div class="text-end">
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="toast-body">
+                                <h4> Silahkan Login terlebih Dahulu</h4>
+
+                            </div>
+                        </div>
+                        <!-- End Toast -->
+
+                        @endauth
                     </div>
                 </form>
             </div>
@@ -135,5 +167,16 @@
 
 </div>
 {{-- end form --}}
+
+@section('js')
+
+<script>
+    // INITIALIZATION OF LIVE TOAST
+    // =======================================================
+    const liveToast = new bootstrap.Toast(document.querySelector('#liveToast'))
+    document.querySelector('#liveToastBtn').addEventListener('click', () => liveToast.show())
+
+</script>
+@endsection
 
 @endsection
