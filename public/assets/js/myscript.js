@@ -16,7 +16,7 @@ const imageInput = document.getElementById('image');
 
             reader.readAsDataURL(file);
 
-            previewImage.classList.add('avatar-img', 'me-2');
+            previewImage.classList.add('avatar-img', 'me-2', 'avatar-lg');
             imagePreview.appendChild(previewImage);
         }
 

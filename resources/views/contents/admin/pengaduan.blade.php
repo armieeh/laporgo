@@ -112,7 +112,6 @@
                             <th>Isi Laporan</th>
                             <th>Desa</th>
                             <th>Status</th>
-                            <th>Foto</th>
                             <th>Detail</th>
                         </tr>
                     </thead>
@@ -131,7 +130,7 @@
                                 <span class="d-block h5 mb-0">{{ $p->tgl_pengaduan }}</span>
                             </td>
                             <td>{{ $p->judul_laporan }}</td>
-                            <td>{{ Str::limit($p->isi_laporan, 25) }}</td>
+                            <td>{{ Str::limit($p->isi_laporan, 20) }}</td>
                             <td>{{ $p->desa->nama_desa }}</td>
                             <td>
                                 @if ($p->status == '0')
@@ -142,7 +141,6 @@
                                 <span class="legend-indicator bg-success"></span>Selesai
                                 @endif
                             </td>
-                            <td><img src="/storage/{{ $p->foto }}" alt="" class="w-100 h-100"></td>
                             <td><a href="{{ route('pengaduan.show', $p->id_pengaduan) }}"
                                     class="btn btn-outline-primary">Lihat</a>
                             </td>
@@ -155,4 +153,18 @@
         </div>
 
 </main>
+@section('js') 
+@if (session('status'))
+<script>
+    $.toast({
+    heading: 'Success',
+    text: 'Berhasil dikirim!',
+    showHideTransition: 'slide',
+    position: 'top-right',
+    icon: 'success'
+    })
+</script>
+@endif
+@endsection
+
 @endsection

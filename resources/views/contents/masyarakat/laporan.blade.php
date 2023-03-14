@@ -36,14 +36,6 @@
                     for="editAvatarUploaderModal">
                     <img id="editAvatarImgModal" class="avatar-img" src="assets/img/user.png" alt="Image Description">
 
-                    <input type="file" class="js-file-attach avatar-uploader-input" id="editAvatarUploaderModal"
-                        data-hs-file-attach-options='{
-                          "textTarget": "#editAvatarImgModal",
-                          "mode": "image",
-                          "targetAttr": "src",
-                          "allowTypes": [".png", ".jpeg", ".jpg"]
-                       }'>
-
                     <span class="avatar-uploader-trigger">
                         <a href="{{ route('pekat.editProfile', $masyarakat->nik) }}"></a>
                     </span>
@@ -126,8 +118,10 @@
 
                                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end"
                                             aria-labelledby="teamsDropdown1">
+                                            <a class="dropdown-item text-secondary"
+                                                href="/edit/{{ $v->id_pengaduan }}">Edit</a>
                                             <a class="dropdown-item text-danger"
-                                                href="/delete/{{ $v->id_pengaduan }}">Delete</a>
+                                                href="/delete/{{ $v->id_pengaduan }}">Hapus</a>
                                         </div>
                                     </div>
                                     @endif
@@ -138,7 +132,7 @@
                             </div>
                             <!-- End Row -->
 
-                            <p class="fw-bold">{{ $v->judul_laporan }}</p>
+                            <p class="h4 fw-bold">{{ $v->judul_laporan }}</p>
                             <p>{{ $v->isi_laporan }}</p>
                             <span class="avatar avatar-xl avatar-4x3">
                                 <div class="d-lg-flex d-none justify-content-start">

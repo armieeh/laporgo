@@ -14,7 +14,6 @@ class PetugasController extends Controller
     public function index(){
 
         $petugas = Petugas::where('level', 'petugas')->get();
-        // $desa = Petugas::where('id_desa', 'id_desa')->get();
 
         return view('contents.petugas.index', ['petugas' => $petugas]);
     }
@@ -45,7 +44,7 @@ class PetugasController extends Controller
         if ($username){
             return redirect()->back()->with(['username' => 'Username sudah digunakan']);
         }
-        // dd($request->all());
+
         Petugas::create([
             'nama' => $data['nama'],
             'username' => $data['username'],
@@ -88,6 +87,6 @@ class PetugasController extends Controller
 
         $petugas->delete();
 
-        return redirect()->route('petugas.index');
+        return redirect()->route('petugas.index')->with('delete', 'Berhasil dihapus');;
     }
 }

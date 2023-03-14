@@ -125,12 +125,13 @@ class UserController extends Controller
         $data = $request->all();
 
         $validate = Validator::make($data,[
-            // 'judul_laporan' => 'required|min:5',
-            // 'isi_laporan' => 'required|min:10',
-            // 'tgl_pengaduan' => 'required',
-            // 'lokasi' => 'required',
-            // 'id_kategori' => 'required',
-            // 'foto' => 'image|mimes:jpg,png,jpeg,gif,svg|max:10000'
+            'judul_laporan' => 'required|min:5',
+            'isi_laporan' => 'required|min:10',
+            'tgl_pengaduan' => 'required',
+            'lokasi' => 'required',
+            'id_kategori' => 'required',
+            'id_desa' => 'required',
+            'foto' => 'image|mimes:jpg,png,jpeg,gif,svg|max:10000'
         ]);
 
         if ($validate->fails()){
@@ -167,8 +168,45 @@ class UserController extends Controller
         }
     }
 
-    public function destroy($id_pengaduan){
+    public function editPengaduan(Request $request, $id_pengaduan)
+    {
+        $pengaduan = Pengaduan::with('desa', 'kategori')->findOrFail($id_pengaduan);
 
+        $desa = Desa::get(['id_desa', 'nama_desa']);
+
+        $kategori = Kategori::get(['id', 'kategori']);
+
+        return view('contents.masyarakat.editPengaduan', ['pengaduan' => $pengaduan, 'desa' => $desa, 'kategori' => $kategori]);
+    }
+
+    public function updatePengaduan(Request $request, $id_pengaduan)
+    {
+
+        $image = [];
+
+        if ($request->hasFile('foto')) {
+            foreach ($request->file('foto') as $file) {
+                $path = $file->store('assets/pengaduan');
+                $image[] = $path;
+            }
+        }
+        
+        Pengaduan::where('id_pengaduan', $id_pengaduan)->update([
+            'tgl_pengaduan' => date('Y-m-d h:i:s'),
+            'judul_laporan' => $request['judul_laporan'],
+            'isi_laporan' => $request['isi_laporan'],
+            'lokasi' => $request['lokasi'],
+            'id_kategori' => $request['id_kategori'],
+            'id_desa' => $request['id_desa'],
+            'foto' => implode('|', $image) ?? '',
+            'status' => '0'
+        ]);
+        
+        return redirect('/laporan')->with('success', 'Data berhasil diubah!');
+    }
+
+    public function destroy($id_pengaduan)
+    {
         $pengaduan = Pengaduan::findOrFail($id_pengaduan);
 
         $pengaduan->delete();

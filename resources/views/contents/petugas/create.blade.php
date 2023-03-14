@@ -12,7 +12,19 @@
                 <h4 class="card-header-title mb-2 mb-sm-0">Form Tambah Petugas</h4>
             </div>
             <div class="card-body">
-                <form action="{{ route('petugas.store') }}" method="post">
+                <div>
+                    @if (Session::has('username'))
+                    <div class="alert alert-danger">
+                        {{ Session::get('username') }}
+                    </div>
+                    @endif
+                    @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger">
+                        {{ $error }}
+                    </div>
+                    @endforeach
+                </div>
+                <form action="{{ route('petugas.store') }}" method="post" class="needs-validation" novalidate>
                     @csrf
                     <div class="mb-3">
                         <label for="inputGroupHoverLightFullName" class="form-label">Nama Petugas</label>
@@ -102,18 +114,6 @@
                     </div>
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
-                <div>
-                    @if (Session::has('username'))
-                    <div class="alert alert-danger">
-                        {{ Session::get('username') }}
-                    </div>
-                    @endif
-                    @foreach ($errors->all() as $error)
-                    <div class="alert alert-danger">
-                        {{ $error }}
-                    </div>
-                    @endforeach
-                </div>
             </div>
         </div>
     </div>

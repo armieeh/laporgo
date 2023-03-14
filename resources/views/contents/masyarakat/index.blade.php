@@ -58,20 +58,23 @@
         <div class="card card-lg h-100 bg-light border-0 shadow-none ">
             <div class="card-body">
                 <h2 class="mb-5 card-title h1 text-inherit text-center">Sampaikan Laporan Anda!</h2>
-                <form action="{{ route('pekat.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('pekat.store') }}" method="post" enctype="multipart/form-data" class="js-validate needs-validation" novalidate>
                     @csrf
+
                     <div class="mb-3">
                         <div class="input-group input-group-merge input-group-light">
                             <input name="judul_laporan" id="exampleFormControlTextarea1" class="form-control"
-                                placeholder="Masukkan Judul Laporan*" rows="4" value="{{ old('judul_laporan') }}">
-                        </div>
+                                placeholder="Masukkan Judul Laporan*" rows="4" value="{{ old('judul_laporan') }}" required>
+                                <div class="invalid-feedback">Judul laporan harus diisi</div>
+                            </div>
                     </div>
 
                     <div class="mb-3">
                         <div class="input-group input-group-merge input-group-light">
                             <textarea name="isi_laporan" id="exampleFormControlTextarea1" class="form-control"
                                 placeholder="Masukkan Isi Laporan*" rows="4"
-                                value="{{ old('isi_laporan') }}"></textarea>
+                                value="{{ old('isi_laporan') }}" required></textarea>
+                                <div class="invalid-feedback">Isi laporan harus diisi</div>
                         </div>
                     </div>
 
@@ -79,40 +82,43 @@
                         <div class="input-group input-group-merge input-group-light">
                             <input name="tgl_pengaduan" type="date" id="exampleFormControlTextarea1"
                                 class="form-control" placeholder="Tanggal Kejadian" rows="4"
-                                value="{{ old('tgl_pengaduan') }}">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="inputhover" class="form-label">Desa / Instansi</label>
-                        <div class="input-group input-group-merge input-group-hover-light">
-                            <select name="id_desa" id="id_desa" class="form-select">
-                                <option value="" selected disabled>pilih desa</option>
-                                @foreach ($desa as $item)
-                                <option value="{{ $item->id_desa }}">{{ $item->nama_desa }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="inputhover" class="form-label">Kategori</label>
-                        <div class="input-group input-group-merge input-group-hover-light">
-                            <select name="id_kategori" id="id_desa" class="form-select">
-                                <option value="" selected disabled>Pilih Kategori</option>
-                                @foreach ($kategori as $item)
-                                <option value="{{ $item->id }}">{{ $item->kategori }}</option>
-                                @endforeach
-                            </select>
+                                value="{{ old('tgl_pengaduan') }}" required>
+                                <div class="invalid-feedback">Tanggal pengaduan harus diisi</div>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <div class="input-group input-group-merge input-group-light">
-                            <input name="lokasi" type="text" id="exampleFormControlTextarea1" class="form-control"
-                                placeholder="Ketik Lokasi Kejadian" rows="4" value="{{ old('lokasi') }}">
+                            <select name="id_desa" id="id_desa" class="form-select" required>
+                                <option value="" selected disabled>Desa</option>
+                                @foreach ($desa as $item)
+                                <option value="{{ $item->id_desa }}">{{ $item->nama_desa }}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">Desa harus diisi</div>
                         </div>
                     </div>
+                    
+                    <div class="mb-3">
+                        <div class="input-group input-group-merge input-group-light">
+                            <input name="lokasi" type="text" id="exampleFormControlTextarea1" class="form-control"
+                                placeholder="Lokasi Kejadian" rows="4" value="{{ old('lokasi') }}" required>
+                                <div class="invalid-feedback">Lokasi harus diisi</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="input-group input-group-merge input-group-light">
+                            <select name="id_kategori" id="id_desa" class="form-select" required>
+                                <option value="" selected disabled>Pilih Kategori</option>
+                                @foreach ($kategori as $item)
+                                <option value="{{ $item->id }}">{{ $item->kategori }}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">Kategori harus diisi</div>
+                        </div>
+                    </div>
+
 
                     <div class="mb-3">
                         <input type="file" name="images[]" accept="image/*" multiple
@@ -126,7 +132,7 @@
                         </small>
                         @enderror
                     </div>
-                    <div class="mt-5 text-end">
+                    <div class="mt-5 text-start">
                         @if (Auth::guard('masyarakat')->check())
                         <button type="submit" class="btn btn-primary">LAPOR!</button>
                         @else
@@ -168,7 +174,27 @@
 </div>
 {{-- end form --}}
 
+
 @section('js')
+<script>
+    (function() {
+      window.onload = function () {
+        // INITIALIZATION OF BOOTSTRAP VALIDATION
+        // =======================================================
+        HSBsValidation.init('.js-validate', {
+        //   onSubmit: data => {
+        //     data.event.preventDefault()
+        //     alert('Submited')
+        //   }
+        })
+
+
+        // INITIALIZATION OF TOGGLE PASSWORD
+        // =======================================================
+        new HSTogglePassword('.js-toggle-password')
+      }
+    })()
+  </script>
 
 <script>
     // INITIALIZATION OF LIVE TOAST

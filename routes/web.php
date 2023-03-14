@@ -28,6 +28,8 @@ Route::middleware(['isMasyarakat'])->group(function(){
     Route::get('/laporan', [UserController::class, 'laporan'])->name('pekat.laporan');
     Route::get('/profile/{nik}', [UserController::class, 'profile'])->name('pekat.editProfile');
     Route::post('/update/{nik}', [UserController::class, 'updateProfile']);
+    Route::get('/edit/{id_pengaduan}', [UserController::class, 'editPengaduan']);
+    Route::put('/laporan/{id_pengaduan}', [UserController::class, 'updatePengaduan']);
     Route::get('/logout', [UserController::class, 'logout'])->name('pekat.logout');
 });
 
